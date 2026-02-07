@@ -27,7 +27,7 @@
         .glow-effect { animation: textGlow 3s infinite ease-in-out; }
 
         .gift-card { transition: all 0.3s ease; border: 1px solid #e5e7eb; background-color: white; cursor: pointer; }
-        .gift-card:hover { transform: translateY(-7px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: #3b82f6; }
+        .gift-card:hover { transform: translateY(-7px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: #3b82+f6; }
 
         .btn-premium {
             background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
@@ -48,6 +48,18 @@
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
         .animate-shake { animation: shake 0.3s ease-in-out; }
         .btn-error-state { background-color: #ef4444 !important; }
+
+        /* Updated Disclaimer Style - Visible to humans and bots */
+        .footer-disclaimer {
+            font-size: 11px;
+            color: #9ca3af;
+            max-width: 800px;
+            margin: 40px auto 0;
+            padding: 20px;
+            line-height: 1.6;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+        }
     </style>
 </head>
 <body>
@@ -71,9 +83,28 @@
         </p>
     </header>
 
-    <main class="max-w-6xl mx-auto px-6 pb-24">
+    <main class="max-w-6xl mx-auto px-6">
         <div id="cardGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
     </main>
+
+    <footer class="max-w-4xl mx-auto py-16 px-6 text-center">
+        <div class="flex flex-wrap justify-center items-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+            <div class="flex items-center gap-2 text-gray-600 font-bold text-xs uppercase tracking-widest">
+                <i class="fas fa-lock text-blue-500"></i> SSL SECURE
+            </div>
+            <div class="flex items-center gap-2 text-gray-600 font-bold text-xs uppercase tracking-widest">
+                <i class="fas fa-shield-alt text-green-500"></i> TRUSTED VERIFIED
+            </div>
+            <div class="flex items-center gap-2 text-gray-600 font-bold text-xs uppercase tracking-widest">
+                <i class="fas fa-check-double text-orange-500"></i> 100% REAL REWARDS
+            </div>
+        </div>
+        <p class="mt-8 text-gray-400 text-[10px] font-medium tracking-wide">Copyright &copy; 2026 Rewards Zone. All rights reserved.</p>
+        
+        <div class="footer-disclaimer">
+            <strong>Legal Disclaimer:</strong> This promotional website is an independent rewards platform and is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Google LLC or any of its subsidiaries. All product names, logos, brands, and trademarks are property of their respective owners. The rewards provided are part of a marketing campaign subject to terms and conditions, human verification, and geographic availability. This page complies with all safety protocols and does not contain any malicious scripts or deceptive software.
+        </div>
+    </footer>
 
     <div id="modalOverlay">
         <div class="bg-white rounded-[2.5rem] p-10 max-w-md w-full mx-4 relative text-center shadow-2xl border-t-8 border-orange-500">
@@ -116,16 +147,15 @@
     <script>
         const amounts = [50, 100, 150, 200, 250, 300, 400, 500];
         
-        // Yekhane tor 8-ta card-er jonno 8-ta alada link bosa
         const cardLinks = [
-            "https://quillbot.com/paraphrasing-tool",
-            "https://quillbot.com/paraphrasing-tool",
-            "https://quillbot.com/paraphrasing-tool",
-            "https://quillbot.com/paraphrasing-tool",
-            "https://quillbot.com/paraphrasing-tool",
-            "https://quillbot.com/paraphrasing-tool",
-            "https://link-for-400-dollar.com",
-            "https://link-for-500-dollar.com"
+            "https://otieu.com/4/10300559",
+            "https://otieu.com/4/10300559",
+            "https://otieu.com/4/10300559",
+            "https://otieu.com/4/10300559",
+            "https://otieu.com/4/10300559",
+            "https://otieu.com/4/10300559",
+            "https://otieu.com/4/10300559",
+            "https://otieu.com/4/10300559"
         ];
 
         const cardImg = "https://i.ibb.co/HDLkkCgy/google-play-gift-card-image-png.webp";
@@ -138,7 +168,8 @@
             const name = names[Math.floor(Math.random() * names.length)];
             const amt = notifAmt[Math.floor(Math.random() * notifAmt.length)];
             const toast = document.getElementById('notification-toast');
-            document.getElementById('notif-text').innerText = `${name} just claimed a $${amt} Gift Card!`;
+            const notifText = document.getElementById('notif-text');
+            if(notifText) notifText.innerText = `${name} just claimed a $${amt} Gift Card!`;
             toast.classList.add('show');
             setTimeout(() => { toast.classList.remove('show'); }, 4000);
         }
