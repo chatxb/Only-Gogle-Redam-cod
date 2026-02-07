@@ -7,150 +7,204 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #f3f4f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { background-color: #f3f4f6; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        /* কার্ড স্টাইল */
-        .gift-card { 
-            transition: all 0.3s ease; 
-            border: 1px solid #e5e7eb; 
-            background-color: white;
-        }
-        
-        .gift-card:hover { 
-            transform: translateY(-7px); 
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1); 
-            border-color: #3b82f6;
+        /* Premium Header Shadow Text */
+        .premium-text {
+            color: #1f2937;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
 
-        /* বাটন স্টাইল */
+        /* Live Notification Animation */
+        #notification-toast {
+            position: fixed;
+            bottom: -100px;
+            left: 20px;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 100;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-left: 5px solid #2ecc71;
+        }
+
+        #notification-toast.show { bottom: 20px; }
+
+        /* Existing Card & Modal Styles */
+        .gift-card { transition: all 0.3s ease; border: 1px solid #e5e7eb; background-color: white; cursor: pointer; }
+        .gift-card:hover { transform: translateY(-7px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: #3b82f6; }
+
         .btn-premium {
             background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
             position: relative;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
-            text-decoration: none !important;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+            font-weight: 900;
         }
 
-        .btn-premium:hover {
-            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.5);
-            filter: brightness(1.1);
-        }
-
-        /* বাটনের শিমার এফেক্ট */
         .btn-premium::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: rotate(45deg);
-            animation: sweep 4s infinite;
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: rgba(255, 255, 255, 0.2); transform: rotate(45deg); animation: sweep 4s infinite;
+        }
+        @keyframes sweep { 0% { transform: translateX(-100%) rotate(45deg); } 100% { transform: translateX(100%) rotate(45deg); } }
+
+        #modalOverlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); z-index: 50; align-items: center; justify-content: center; backdrop-filter: blur(10px);
         }
 
-        @keyframes sweep {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-
-        /* গুগল বটের জন্য হিডেন সেকশন */
-        .google-legal-notice {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
-            white-space: nowrap;
-            color: transparent;
-        }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        .animate-shake { animation: shake 0.3s ease-in-out; }
+        .btn-error-state { background-color: #ef4444 !important; color: white !important; }
     </style>
 </head>
 <body>
 
-    <section class="google-legal-notice">
-        <h2>Interface Simulation Study & Compliance Notice</h2>
-        <p>This is a simulated digital environment for educational purposes. All assets are placeholders. Not affiliated with Google LLC.</p>
-    </section>
+    <div id="notification-toast">
+        <div class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div>
+            <p id="notif-text" class="text-xs font-bold text-gray-800"></p>
+            <p class="text-[10px] text-gray-400 uppercase tracking-widest">Just now</p>
+        </div>
+    </div>
 
-    <header class="text-center py-16">
-        <h1 class="text-4xl md:text-5xl font-black text-gray-800 mb-4 tracking-tight">
+    <header class="text-center py-20 px-4">
+        <h1 class="text-5xl md:text-6xl font-black mb-4 premium-text tracking-tighter">
             Google Play Redeem Codes
         </h1>
-        <p class="text-blue-600 font-bold text-lg">
-            🎁 Google Play Gift Cards Giveaway! Wanna join?
+        <p class="text-gray-500 text-lg font-medium">
+            <span class="text-blue-600 font-bold">🎁 Instant Delivery</span> — Choose your amount and verify to unlock.
         </p>
     </header>
 
     <main class="max-w-6xl mx-auto px-6 pb-24">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            <script>
-                const amounts = [50, 100, 150, 200, 250, 300, 400, 500];
-
-                // --- এখানে তোমার অফার লিঙ্কগুলো বসাও ---
-                const cardLinks = [
-                    "https://example.com/link1", 
-                    "https://example.com/link2", 
-                    "https://example.com/link3", 
-                    "https://example.com/link4", 
-                    "https://example.com/link5", 
-                    "https://example.com/link6", 
-                    "https://example.com/link7", 
-                    "https://example.com/link8"
-                ];
-
-                const cardImg = "https://i.ibb.co/HDLkkCgy/google-play-gift-card-image-png.webp";
-
-                amounts.forEach((amount, index) => {
-                    const currentLink = cardLinks[index];
-
-                    document.write(`
-                        <div class="gift-card rounded-2xl p-6 relative flex flex-col items-center">
-                            <div class="w-full flex justify-between items-center mb-6">
-                                <span class="text-[10px] font-bold text-green-500 uppercase flex items-center bg-green-50 px-2 py-1 rounded">
-                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-1.5 animate-pulse"></span> Available
-                                </span>
-                                <span class="bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">FREE</span>
-                            </div>
-
-                            <a href="${currentLink}" target="_blank" class="mb-6 block">
-                                <img src="${cardImg}" alt="Gift Card" class="w-32 h-auto drop-shadow-xl hover:scale-105 transition-transform duration-300 pointer-events-auto">
-                            </a>
-
-                            <div class="text-center mb-6">
-                                <h3 class="text-2xl font-black text-gray-800 tracking-tight">$${amount} Google Play</h3>
-                                <p class="text-[9px] font-bold text-gray-400 tracking-[0.2em] uppercase mt-1">Digital Delivery</p>
-                            </div>
-
-                            <a href="${currentLink}" target="_blank" class="btn-premium w-full text-white font-black py-4 rounded-xl text-center uppercase text-xs tracking-widest mb-4 gap-2">
-                                Redeem Now <i class="fas fa-chevron-right text-[10px]"></i>
-                            </a>
-
-                            <div class="flex justify-between w-full text-[9px] font-bold text-gray-400 uppercase pt-4 border-t border-gray-50">
-                                <span><i class="fas fa-bolt text-yellow-500 mr-1"></i> Instant</span>
-                                <span><i class="fas fa-shield-alt text-blue-400 mr-1"></i> Secure</span>
-                            </div>
-                        </div>
-                    `);
-                });
-            </script>
-
-        </div>
+        <div id="cardGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
     </main>
 
-    <footer class="text-center py-10 border-t border-gray-100">
-        <p class="text-gray-400 text-[10px] font-bold uppercase tracking-normal">
-            © 2026 REWARDS ZONE HUB • SIMULATION INTERFACE
-        </p>
-    </footer>
+    <div id="modalOverlay">
+        <div class="bg-white rounded-[2.5rem] p-10 max-w-md w-full mx-4 relative text-center shadow-2xl border-t-8 border-orange-500">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
 
+            <div class="bg-orange-100 text-orange-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-orange-200">
+                <i class="fas fa-gift text-2xl animate-bounce"></i>
+            </div>
+            
+            <h2 class="text-2xl font-black uppercase mb-1 text-gray-800 tracking-tighter">One Last Step</h2>
+            <p class="text-orange-500 font-black text-[10px] mb-6 uppercase tracking-[0.2em] italic">Human Verification</p>
+
+            <h3 class="text-lg font-bold text-gray-700 mb-6 leading-tight">
+                Congratulations! You get <span id="modalAmount" class="text-blue-600 font-black"></span> Redeem Code 💎
+            </h3>
+
+            <div class="flex items-center justify-center gap-4 mb-8 bg-gray-50 py-5 rounded-3xl border border-dashed border-gray-300">
+                <div class="p-3 bg-white shadow-sm rounded-xl"><i class="fas fa-mobile-alt text-2xl text-blue-500"></i></div>
+                <i class="fas fa-arrow-right text-gray-300"></i>
+                <div class="p-3 bg-green-500 text-white rounded-full font-black w-12 h-12 flex items-center justify-center shadow-lg border-2 border-white" id="bubbleAmount"></div>
+            </div>
+
+            <div class="space-y-4">
+                <a href="#" id="cpaLink" target="_blank" class="btn-premium w-full text-white py-5 rounded-2xl text-center uppercase text-sm no-underline shadow-lg">
+                    <i class="fas fa-download mr-2"></i> DOWNLOAD APP <span class="bg-white/20 px-2 py-0.5 rounded ml-2 text-[10px]">FREE</span>
+                </a>
+                <button onclick="startFakeCheck()" id="checkBtn" class="w-full bg-gray-800 text-white py-5 rounded-2xl uppercase text-sm font-black tracking-widest transition-all duration-300 shadow-md flex items-center justify-center gap-2">
+                    <i class="fas fa-sync-alt" id="syncIcon"></i> CHECK STATUS
+                </button>
+            </div>
+            
+            <p class="text-[11px] text-gray-500 mt-8 font-bold uppercase tracking-wide leading-relaxed">
+                Complete app installation to unlock your reward <span id="dynamicBottomAmount" class="text-green-600"></span>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const amounts = [50, 100, 150, 200, 250, 300, 400, 500];
+        const cardLinks = ["#","#","#","#","#","#","#","#"];
+        const cardImg = "https://i.ibb.co/HDLkkCgy/google-play-gift-card-image-png.webp";
+        const cardGrid = document.getElementById('cardGrid');
+
+        // Notification Fake Data
+        const names = ["John", "Sarah", "Rahim", "Kuddus", "Elena", "Mike", "Tanvir", "Sonia", "David"];
+        const notifAmt = [50, 100, 200, 500, 150, 250];
+
+        function showNotification() {
+            const name = names[Math.floor(Math.random() * names.length)];
+            const amt = notifAmt[Math.floor(Math.random() * notifAmt.length)];
+            const toast = document.getElementById('notification-toast');
+            document.getElementById('notif-text').innerText = `${name} just claimed a $${amt} Gift Card!`;
+            
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 4000);
+        }
+
+        // Run notification every 8 seconds
+        setInterval(showNotification, 8000);
+        setTimeout(showNotification, 2000);
+
+        amounts.forEach((amount, index) => {
+            const card = `
+                <div class="gift-card rounded-3xl p-6 relative flex flex-col items-center" onclick="openModal('${amount}', '${cardLinks[index]}')">
+                    <div class="w-full flex justify-between items-center mb-6">
+                        <span class="text-[10px] font-bold text-green-500 uppercase flex items-center bg-green-50 px-2 py-1 rounded">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-1.5 animate-pulse"></span> Available
+                        </span>
+                        <span class="bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">FREE</span>
+                    </div>
+                    <img src="${cardImg}" alt="Gift Card" class="w-32 h-auto drop-shadow-xl mb-6">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-black text-gray-800 tracking-tight">$${amount} Google Play</h3>
+                    </div>
+                    <div class="btn-premium w-full text-white font-black py-4 rounded-2xl text-center uppercase text-xs tracking-widest">
+                        Redeem Now
+                    </div>
+                </div>
+            `;
+            cardGrid.innerHTML += card;
+        });
+
+        function openModal(amt, link) {
+            const formattedAmt = '$' + amt;
+            document.getElementById('modalAmount').innerText = formattedAmt;
+            document.getElementById('bubbleAmount').innerText = formattedAmt;
+            document.getElementById('dynamicBottomAmount').innerText = formattedAmt;
+            document.getElementById('cpaLink').href = link; 
+            document.getElementById('modalOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            resetCheckButton();
+        }
+
+        function resetCheckButton() {
+            const btn = document.getElementById('checkBtn');
+            btn.innerHTML = '<i class="fas fa-sync-alt" id="syncIcon"></i> CHECK STATUS';
+            btn.classList.remove('btn-error-state', 'animate-shake');
+            btn.disabled = false;
+        }
+
+        function startFakeCheck() {
+            const btn = document.getElementById('checkBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-circle-notch animate-spin mr-2"></i> Checking...';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i> Verification Failed!';
+                btn.classList.add('btn-error-state', 'animate-shake');
+                setTimeout(() => { resetCheckButton(); }, 3000);
+            }, 2500);
+        }
+    </script>
 </body>
 </html>
