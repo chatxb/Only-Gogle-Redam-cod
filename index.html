@@ -9,7 +9,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
         body { background-color: #f3f4f6; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        
         .premium-text { color: #1f2937; text-shadow: 0 5px 15px rgba(0,0,0,0.02); line-height: 1.2; }
 
         #notification-toast {
@@ -19,15 +18,30 @@
         }
         #notification-toast.show { bottom: 20px; }
 
-        @keyframes textGlow {
-            0% { text-shadow: 0 0 5px rgba(59, 130, 246, 0.1); }
-            50% { text-shadow: 0 0 12px rgba(59, 130, 246, 0.4); }
-            100% { text-shadow: 0 0 5px rgba(59, 130, 246, 0.1); }
-        }
-        .glow-effect { animation: textGlow 3s infinite ease-in-out; }
-
         .gift-card { transition: all 0.3s ease; border: 1px solid #e5e7eb; background-color: white; cursor: pointer; }
-        .gift-card:hover { transform: translateY(-7px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: #3b82+f6; }
+        .gift-card:hover { transform: translateY(-7px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: #3b82f6; }
+
+        .share-card { border: 2px dashed #25d366; background: #f0fff4; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .limited-notice { 
+            position: absolute; top: 0; right: 0; 
+            background: linear-gradient(45deg, #f39c12, #e74c3c); 
+            color: white; font-size: 8px; font-weight: 500; 
+            padding: 3px 10px; border-bottom-left-radius: 12px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        .prog-container { background: #eee; height: 10px; border-radius: 10px; margin: 10px 0; overflow: hidden; }
+        .prog-fill { width: 0%; height: 100%; background: #25d366; transition: width 0.4s ease; }
+        
+        .btn-wa { 
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%); 
+            color: white; padding: 10px 20px; border-radius: 14px; 
+            font-weight: 500; display: flex; align-items: center; justify-content: center; 
+            gap: 8px; cursor: pointer; transition: all 0.3s ease; 
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.25);
+            font-size: 13px; border-bottom: 2px solid #075e54;
+        }
+        .btn-wa:hover { transform: scale(1.02); filter: brightness(1.1); }
 
         .btn-premium {
             background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
@@ -48,18 +62,9 @@
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
         .animate-shake { animation: shake 0.3s ease-in-out; }
         .btn-error-state { background-color: #ef4444 !important; }
-
-        /* Updated Disclaimer Style - Visible to humans and bots */
-        .footer-disclaimer {
-            font-size: 11px;
-            color: #9ca3af;
-            max-width: 800px;
-            margin: 40px auto 0;
-            padding: 20px;
-            line-height: 1.6;
-            text-align: center;
-            border-top: 1px solid #e5e7eb;
-        }
+        
+        .footer-secure { padding: 30px 20px; text-align: center; opacity: 0.6; }
+        .disclaimer-text { font-size: 9px; color: #9ca3af; max-width: 600px; margin: 15px auto 0; line-height: 1.4; }
     </style>
 </head>
 <body>
@@ -74,35 +79,24 @@
         </div>
     </div>
 
-    <header class="text-center py-12 md:py-20 px-4 max-w-4xl mx-auto">
-        <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 premium-text tracking-tight">
+    <header class="text-center py-12 px-4 max-w-4xl mx-auto">
+        <h1 class="text-3xl sm:text-5xl font-bold mb-4 premium-text tracking-tight">
             Google Play <span class="text-blue-600">Redeem Codes</span>
         </h1>
-        <p class="text-gray-500 text-sm md:text-lg font-medium px-2">
-            <span class="text-green-600 font-bold">🎁 Instant Delivery</span> — Choose your amount and verify to unlock rewards instantly.
-        </p>
     </header>
 
     <main class="max-w-6xl mx-auto px-6">
         <div id="cardGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
     </main>
 
-    <footer class="max-w-4xl mx-auto py-16 px-6 text-center">
-        <div class="flex flex-wrap justify-center items-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-            <div class="flex items-center gap-2 text-gray-600 font-bold text-xs uppercase tracking-widest">
-                <i class="fas fa-lock text-blue-500"></i> SSL SECURE
-            </div>
-            <div class="flex items-center gap-2 text-gray-600 font-bold text-xs uppercase tracking-widest">
-                <i class="fas fa-shield-alt text-green-500"></i> TRUSTED VERIFIED
-            </div>
-            <div class="flex items-center gap-2 text-gray-600 font-bold text-xs uppercase tracking-widest">
-                <i class="fas fa-check-double text-orange-500"></i> 100% REAL REWARDS
-            </div>
+    <footer class="footer-secure">
+        <div class="flex justify-center items-center gap-4 text-[10px] font-bold text-gray-500 uppercase">
+            <span><i class="fas fa-shield-alt text-green-500"></i> Secure Server</span>
+            <span><i class="fas fa-lock text-blue-500"></i> SSL Encrypted</span>
+            <span><i class="fas fa-check-circle text-orange-500"></i> Verified Rewards</span>
         </div>
-        <p class="mt-8 text-gray-400 text-[10px] font-medium tracking-wide">Copyright &copy; 2026 Rewards Zone. All rights reserved.</p>
-        
-        <div class="footer-disclaimer">
-            <strong>Legal Disclaimer:</strong> This promotional website is an independent rewards platform and is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Google LLC or any of its subsidiaries. All product names, logos, brands, and trademarks are property of their respective owners. The rewards provided are part of a marketing campaign subject to terms and conditions, human verification, and geographic availability. This page complies with all safety protocols and does not contain any malicious scripts or deceptive software.
+        <div class="disclaimer-text">
+            Disclaimer: Promotional platform for marketing purposes. Not affiliated with Google LLC.
         </div>
     </footer>
 
@@ -111,18 +105,15 @@
             <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600">
                 <i class="fas fa-times text-2xl"></i>
             </button>
-
             <div class="bg-orange-100 text-orange-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-orange-200">
                 <i class="fas fa-gift text-2xl animate-bounce"></i>
             </div>
-            
-            <h2 class="text-2xl font-semibold uppercase mb-1 text-gray-800 tracking-tight glow-effect">One Last <span class="text-blue-600">Step</span></h2>
-            <p class="text-orange-500 font-medium text-[10px] mb-6 uppercase tracking-[0.25em] italic">Human Verification</p>
-
+            <h2 class="text-2xl font-semibold mb-1 text-gray-800">One Last <span class="text-blue-600">Step</span></h2>
+            <p class="text-orange-500 font-medium text-[10px] mb-6 uppercase tracking-[0.25em]">Human Verification</p>
             <h3 class="text-lg font-bold text-gray-700 mb-6 leading-tight">
                 Congratulations! You get <span id="modalAmount" class="text-blue-600 font-black"></span> Redeem Code 💎
             </h3>
-
+            
             <div class="flex items-center justify-center gap-4 mb-8 bg-gray-50 py-5 rounded-3xl border border-dashed border-gray-300">
                 <div class="p-3 bg-white shadow-sm rounded-xl"><i class="fas fa-mobile-alt text-2xl text-blue-500"></i></div>
                 <i class="fas fa-arrow-right text-gray-300"></i>
@@ -133,11 +124,10 @@
                 <a href="#" id="cpaLink" target="_blank" class="btn-premium w-full text-white py-5 rounded-2xl text-center uppercase text-sm no-underline shadow-lg">
                     <i class="fas fa-download mr-2"></i> DOWNLOAD APP <span class="bg-white/20 px-2 py-0.5 rounded ml-2 text-[10px]">FREE</span>
                 </a>
-                <button onclick="startFakeCheck()" id="checkBtn" class="w-full bg-gray-800 text-white py-5 rounded-2xl uppercase text-sm font-black tracking-widest transition-all duration-300 shadow-md flex items-center justify-center gap-2">
+                <button onclick="startFakeCheck()" id="checkBtn" class="w-full bg-gray-800 text-white py-5 rounded-2xl uppercase text-sm font-black tracking-widest flex items-center justify-center gap-2">
                     <i class="fas fa-sync-alt" id="syncIcon"></i> CHECK STATUS
                 </button>
             </div>
-            
             <p class="text-[11px] text-gray-500 mt-8 font-bold uppercase tracking-wide leading-relaxed">
                 Complete app installation to unlock your reward <span id="dynamicBottomAmount" class="text-green-600"></span>
             </p>
@@ -145,56 +135,86 @@
     </div>
 
     <script>
-        const amounts = [50, 100, 150, 200, 250, 300, 400, 500];
-        
-        const cardLinks = [
-            "https://otieu.com/4/10300559",
-            "https://otieu.com/4/10300559",
-            "https://otieu.com/4/10300559",
-            "https://otieu.com/4/10300559",
-            "https://otieu.com/4/10300559",
-            "https://otieu.com/4/10300559",
-            "https://otieu.com/4/10300559",
-            "https://otieu.com/4/10300559"
+        // Eikhane prottektar jonno alada link bosha
+        const offers = [
+            { amt: 50,  link: "https://otieu.com/4/10300559" },
+            { amt: 100, link: "https://otieu.com/4/10300559" },
+            { amt: 150, link: "https://otieu.com/4/10300559" },
+            { amt: 200, link: "https://otieu.com/4/10300559" },
+            { amt: 250, link: "https://otieu.com/4/10300559" },
+            { amt: 300, link: "https://otieu.com/4/10300559" },
+            { amt: 400, link: "https://otieu.com/4/10300559" }
         ];
 
         const cardImg = "https://i.ibb.co/HDLkkCgy/google-play-gift-card-image-png.webp";
         const cardGrid = document.getElementById('cardGrid');
 
-        const names = ["John", "Sarah", "Rahim", "Kuddus", "Elena", "Mike", "Tanvir", "Sonia", "David"];
-        const notifAmt = [50, 100, 200, 500, 150, 250];
+        let c = 0;
+        const shareMsg = ""Stop everything..!
+🚨 I just grabbed a $500 Google Play gift card for absolutely FREE!
+🎮 It actually worked. Don't wait—get yours right now at:👇👇 
+https://www.proxilhub.com/
 
-        function showNotification() {
-            const name = names[Math.floor(Math.random() * names.length)];
-            const amt = notifAmt[Math.floor(Math.random() * notifAmt.length)];
-            const toast = document.getElementById('notification-toast');
-            const notifText = document.getElementById('notif-text');
-            if(notifText) notifText.innerText = `${name} just claimed a $${amt} Gift Card!`;
-            toast.classList.add('show');
-            setTimeout(() => { toast.classList.remove('show'); }, 4000);
+
+
+বিশ্বাসই করতে পারবেন না..! 😱 
+একদম ফ্রিতে $500-এর Google Play gift card পেলাম..! 
+আপনিও দ্রুত চেষ্টা করে দেখুন, না হলে এই সুযোগ মিস করবেন 👇👇
+https://www.proxilhub.com/
+
+
+यकीन नहीं होगा! 🔥 
+मुझे सच में $500 का Google Play gift card फ्री में मिला है! 
+आप भी जल्दी से अपना कार्ड ले लीजिए वरना मौका निकल जाएगा: 👇👇
+https://www.proxilhub.com/        
+        // WhatsApp 5 bar share shesh hole ei link-e jabe ($500 er jonno)
+        const premiumShareLink = "https://otieu.com/4/10300559"; 
+
+        function render() {
+            cardGrid.innerHTML = "";
+            offers.forEach((offer, i) => {
+                const card = `
+                <div class="gift-card rounded-3xl p-6 flex flex-col items-center" onclick="openModal('${offer.amt}', '${offer.link}')">
+                    <div class="w-full flex justify-between mb-4">
+                        <span class="text-[10px] font-bold text-green-500 uppercase">Available</span>
+                        <span class="bg-green-500 text-white text-[10px] px-2 py-0.5 rounded">FREE</span>
+                    </div>
+                    <img src="${cardImg}" class="w-24 h-auto mb-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">$${offer.amt} Gift Card</h3>
+                    <div class="btn-premium w-full text-white py-3 rounded-xl text-xs uppercase">Redeem Now</div>
+                </div>`;
+                cardGrid.innerHTML += card;
+
+                if(i === 0) {
+                    const shareBox = `
+                    <div class="share-card rounded-3xl p-6 flex flex-col items-center justify-between">
+                        <div class="limited-notice"><i class="fas fa-bolt mr-1"></i> LIMITED</div>
+                        <h2 class="text-lg font-black text-green-600 uppercase mt-2">$500 REWARD</h2>
+                        <p class="text-[10px] text-black text-center font-medium">Invite 5 friends to WhatsApp to unlock the $500 premium reward.</p>
+                        <div class="w-full">
+                            <div class="prog-container"><div class="prog-fill" id="bar"></div></div>
+                            <div id="countText" class="text-[10px] font-black text-center text-green-600 mb-2">PROGRESS: 0 / 5</div>
+                        </div>
+                        <div class="btn-wa w-full" onclick="sh()">
+                            <i class="fab fa-whatsapp text-lg"></i> SHARE & UNLOCK
+                        </div>
+                    </div>`;
+                    cardGrid.innerHTML += shareBox;
+                }
+            });
         }
 
-        setInterval(showNotification, 8000);
-        setTimeout(showNotification, 2000);
-
-        amounts.forEach((amount, index) => {
-            const card = `
-                <div class="gift-card rounded-3xl p-6 relative flex flex-col items-center" onclick="openModal('${amount}', '${cardLinks[index]}')">
-                    <div class="w-full flex justify-between items-center mb-6">
-                        <span class="text-[10px] font-bold text-green-500 uppercase flex items-center bg-green-50 px-2 py-1 rounded">
-                            <span class="w-2 h-2 bg-green-500 rounded-full mr-1.5 animate-pulse"></span> Available
-                        </span>
-                        <span class="bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">FREE</span>
-                    </div>
-                    <img src="${cardImg}" alt="Gift Card" class="w-32 h-auto drop-shadow-xl mb-6">
-                    <div class="text-center mb-6">
-                        <h3 class="text-2xl font-bold text-gray-800 tracking-tight">$${amount} Google Play</h3>
-                    </div>
-                    <div class="btn-premium w-full text-white font-bold py-4 rounded-2xl text-center uppercase text-xs tracking-widest">Redeem Now</div>
-                </div>
-            `;
-            cardGrid.innerHTML += card;
-        });
+        function sh() {
+            if(c < 4) {
+                c++;
+                document.getElementById('bar').style.width = (c * 20) + '%';
+                document.getElementById('countText').innerText = 'PROGRESS: ' + c + ' / 5';
+                window.open('whatsapp://send?text=' + encodeURIComponent(shareMsg));
+            } else {
+                // $500 share shesh hole alada link e niye jabe
+                window.open(premiumShareLink, '_blank');
+            }
+        }
 
         function openModal(amt, link) {
             const formattedAmt = '$' + amt;
@@ -214,7 +234,7 @@
 
         function resetCheckButton() {
             const btn = document.getElementById('checkBtn');
-            btn.innerHTML = '<i class="fas fa-sync-alt" id="syncIcon"></i> CHECK STATUS';
+            btn.innerHTML = '<i class="fas fa-sync-alt"></i> CHECK STATUS';
             btn.classList.remove('btn-error-state', 'animate-shake');
             btn.disabled = false;
         }
@@ -222,13 +242,23 @@
         function startFakeCheck() {
             const btn = document.getElementById('checkBtn');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-circle-notch animate-spin mr-2"></i> Checking...';
+            btn.innerHTML = '<i class="fas fa-circle-notch animate-spin"></i> Checking...';
             setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i> Verification Failed!';
+                btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Verification Failed!';
                 btn.classList.add('btn-error-state', 'animate-shake');
-                setTimeout(() => { resetCheckButton(); }, 3000);
+                setTimeout(() => resetCheckButton(), 3000);
             }, 2500);
         }
+
+        function showNotification() {
+            const toast = document.getElementById('notification-toast');
+            document.getElementById('notif-text').innerText = "User just claimed a reward!";
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+        setInterval(showNotification, 10000);
+
+        render();
     </script>
 </body>
 </html>
