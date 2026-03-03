@@ -11,12 +11,14 @@
         body { background-color: #f3f4f6; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         .premium-text { color: #1f2937; text-shadow: 0 5px 15px rgba(0,0,0,0.02); line-height: 1.2; }
 
+        /* Notification Moved to TOP-LEFT to clear footer */
         #notification-toast {
-            position: fixed; bottom: -100px; left: 20px; background: white; padding: 12px 20px;
-            border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex;
-            align-items: center; gap: 12px; z-index: 100; transition: all 0.5s; border-left: 5px solid #2ecc71;
+            position: fixed; top: -100px; left: 20px; background: rgba(255, 255, 255, 0.98); padding: 8px 15px;
+            border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); display: flex;
+            align-items: center; gap: 10px; z-index: 1000; transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); 
+            border: 1px solid #e5e7eb; border-left: 4px solid #2ecc71;
         }
-        #notification-toast.show { bottom: 20px; }
+        #notification-toast.show { top: 20px; }
 
         .gift-card { transition: all 0.3s ease; border: 1px solid #e5e7eb; background-color: white; cursor: pointer; }
         .gift-card:hover { transform: translateY(-7px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: #3b82f6; }
@@ -63,19 +65,22 @@
         .animate-shake { animation: shake 0.3s ease-in-out; }
         .btn-error-state { background-color: #ef4444 !important; }
         
-        .footer-secure { padding: 30px 20px; text-align: center; opacity: 0.6; }
-        .disclaimer-text { font-size: 9px; color: #9ca3af; max-width: 600px; margin: 15px auto 0; line-height: 1.4; }
+        .footer-new { padding: 40px 20px; text-align: center; border-top: 1px solid #e5e7eb; margin-top: 50px; background: #fff; }
+        .footer-links { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; }
+        .footer-links a { color: #4b5563; font-size: 13px; font-weight: 600; text-decoration: none; }
+        .footer-links a:hover { color: #2563eb; }
+        .footer-copy { font-size: 12px; color: #6b7280; line-height: 1.6; max-width: 500px; margin: 0 auto; }
     </style>
 </head>
 <body>
 
     <div id="notification-toast">
-        <div class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
-            <i class="fas fa-check-circle"></i>
+        <div class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-[10px]">
+            <i class="fas fa-check"></i>
         </div>
         <div>
-            <p id="notif-text" class="text-xs font-bold text-gray-800"></p>
-            <p class="text-[10px] text-gray-400 uppercase tracking-widest">Just now</p>
+            <p id="notif-text" class="text-[11px] font-bold text-gray-800 leading-tight"></p>
+            <p class="text-[9px] text-green-600 font-semibold uppercase tracking-tighter">Verified Reward</p>
         </div>
     </div>
 
@@ -89,14 +94,15 @@
         <div id="cardGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
     </main>
 
-    <footer class="footer-secure">
-        <div class="flex justify-center items-center gap-4 text-[10px] font-bold text-gray-500 uppercase">
-            <span><i class="fas fa-shield-alt text-green-500"></i> Secure Server</span>
-            <span><i class="fas fa-lock text-blue-500"></i> SSL Encrypted</span>
-            <span><i class="fas fa-check-circle text-orange-500"></i> Verified Rewards</span>
+    <footer class="footer-new">
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Disclaimer</a>
+            <a href="#">Contact us</a>
         </div>
-        <div class="disclaimer-text">
-            Disclaimer: Promotional platform for marketing purposes. Not affiliated with Google LLC.
+        <div class="footer-copy">
+            © 2026 Google Play Redeem Info | Independent educational landing page (not affiliated with Google LLC) Copyright © 2026
         </div>
     </footer>
 
@@ -147,25 +153,11 @@
 
         const cardImg = "https://i.ibb.co/HDLkkCgy/google-play-gift-card-image-png.webp";
         const cardGrid = document.getElementById('cardGrid');
-
         let c = 0;
-
-        // আপনার ডাইরেক্ট লিঙ্ক
         const directLink = "https://otieu.com/4/10300559"; 
 
         const shareMsg = `Stop everything..! 🚨 I just grabbed a $500 Google Play gift card for absolutely FREE! 🎮 It actually worked. Don't wait—get yours right now at: 👇👇 
-https://www.proxilhub.com
-
-
-বিশ্বাসই করতে পারবেন না..! 😱 
-একদম ফ্রিতে $500-এর Google Play gift card পেলাম..! 
-আপনিও দ্রুত চেষ্টা করে দেখুন, না হলে এই সুযোগ মিস করবেন 👇👇
-https://www.proxilhub.com
-
-
-यकीन नहीं होगा! 🔥 
-मुझे सच में $500 का Google Play gift card फ्री में मिला है! आप भी जल्दी থেকে اپنا কার্ড লে लीजिए वरना मौका निकल जाएगा: 👇👇
-https://www.proxilhub.com`;
+Your_Link_here`;
 
         function render() {
             cardGrid.innerHTML = "";
@@ -251,12 +243,20 @@ https://www.proxilhub.com`;
         }
 
         function showNotification() {
+            const names = ["James (USA)", "Emma (UK)", "Rahul (India)", "Siddiq (BD)", "Maria (PH)", "Liam (USA)", "Arjun (IN)", "Rakib (BD)"];
+            const amounts = [50, 100, 250, 500];
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomAmt = amounts[Math.floor(Math.random() * amounts.length)];
             const toast = document.getElementById('notification-toast');
-            document.getElementById('notif-text').innerText = "User just claimed a reward!";
+            document.getElementById('notif-text').innerHTML = `${randomName} claimed <span class="text-blue-600">$${randomAmt}</span>`;
             toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
+            setTimeout(() => toast.classList.remove('show'), 4000);
         }
-        setInterval(showNotification, 10000);
+        
+        setTimeout(() => {
+            showNotification();
+            setInterval(showNotification, 12000);
+        }, 4000);
 
         render();
     </script>
