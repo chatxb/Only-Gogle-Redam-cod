@@ -3,19 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Play Codes - Rewards Zone</title>
+    <title>Google Play Codes - Giveaway Zone</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        
         * { -webkit-user-select: auto; -moz-user-select: auto; -ms-user-select: auto; user-select: auto; }
-
         body { background-color: #f3f4f6; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
-        
         .top-menu { width: 100%; background: white; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); text-align: center; }
         .top-menu h1 { font-size: 1.25rem; font-weight: 800; color: #1f2937; }
-
+        
         #notification-toast {
             position: fixed; top: -80px; left: 15px; background: rgba(255, 255, 255, 0.98); 
             padding: 6px 12px; border-radius: 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
@@ -27,13 +24,13 @@
 
         .gift-card { transition: all 0.3s ease; border: 1px solid #e5e7eb; background-color: white; cursor: pointer; border-radius: 2rem; height: 100%; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; padding: 20px; }
         .gift-card:hover { transform: translateY(-7px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); border-color: #3b82f6; }
-
+        
         .share-card { border: 2px dashed #25d366; background: #f0fff4; transition: all 0.3s ease; position: relative; overflow: hidden; border-radius: 2rem; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; }
         .prog-container { background: #eee; height: 10px; border-radius: 10px; margin: 10px 0; overflow: hidden; }
         .prog-fill { width: 0%; height: 100%; background: #25d366; transition: width 0.4s ease; }
         
         .btn-wa { background: linear-gradient(135deg, #25d366 0%, #128c7e 100%); color: white; padding: 10px 20px; border-radius: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; font-size: 13px; }
-
+        
         .btn-premium {
             background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
             position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
@@ -57,7 +54,7 @@
         .step-box { background: #2c2c2e; border-radius: 18px; padding: 12px; margin: 10px 0; text-align: left; border: 1px solid #3a3a3c; }
         .step-title { color: #fff; font-size: 14px; font-weight: 800; margin-bottom: 2px; display: block; }
         .step-desc { color: #aaa; font-size: 11px; font-weight: 600; display: block; margin-bottom: 12px; }
-
+        
         .btn-ios { display: block; color: #fff; text-decoration: none; text-align: center; padding: 12px; border-radius: 12px; font-weight: 800; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
         .btn-blue { background: linear-gradient(135deg, #007aff 0%, #0040ff 100%); }
         .btn-purple { background: linear-gradient(135deg, #af52de 0%, #5856d6 100%); }
@@ -70,12 +67,14 @@
         .footer-links a { color: #1f2937; font-size: 13px; font-weight: 700; text-decoration: none; }
         .footer-links a:hover { color: #2563eb; }
         .footer-copy { font-size: 13px; color: #374151; font-weight: 500; line-height: 1.6; max-width: 600px; margin: 0 auto; }
+        
+        .highlight-amt { color: #34c759; font-weight: 900; }
     </style>
 </head>
 <body>
 
     <header class="top-menu">
-        <h1>Google Play <span class="text-blue-600">Redeem Codes</span></h1>
+        <h1>Google Play <span class="text-blue-600">Giveaway</span></h1>
     </header>
 
     <div id="notification-toast">
@@ -105,8 +104,7 @@
     <div id="confirmModal" class="modal" onclick="closeIfOutside(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="ios-handle" onclick="closeConfirm()"></div>
-            <h2 style="font-size: 17px; font-weight: 800; margin-bottom: 5px;">Complete 3 steps to unlock</h2>
-            <div style="color: #34c759; font-weight: 800; font-size: 14px; margin-bottom: 15px;">💎 <span id="rewardAmountText"></span> 💎</div>
+            <h2 id="modalMainTitle" style="font-size: 17px; font-weight: 800; margin-bottom: 20px; line-height: 1.4;">Complete 3 tasks to enter the Giveaway</h2>
             
             <div class="step-box">
                 <span class="step-title">Complete Step 1</span>
@@ -127,7 +125,7 @@
             </div>
 
             <p style="color: #007aff; font-size: 12px; font-weight: 700; margin-top: 15px; text-transform: uppercase; letter-spacing: 0.5px;">
-                
+                Complete steps to enter the giveaway
             </p>
         </div>
     </div>
@@ -144,7 +142,10 @@
             { amt: 200, l1: "https://otieu.com/4/10300559", l2: "https://otieu.com/4/10300559", l3: "https://otieu.com/4/10300559" },
             { amt: 250, l1: "https://otieu.com/4/10300559", l2: "https://otieu.com/4/10300559", l3: "https://otieu.com/4/10300559" },
             { amt: 300, l1: "https://otieu.com/4/10300559", l2: "https://otieu.com/4/10300559", l3: "https://otieu.com/4/10300559" },
-            { amt: 400, l1: "https://otieu.com/4/10300559", l2: "https://otieu.com/4/10300559", l3: "https://otieu.com/4/10300559" }
+            { amt: 400, l1: "https://otieu.com/4/10300559", l2: "https://otieu.com/4/10300559", l3: "https://otieu.com/4/10300559" },
+            
+            /* --- WhatsApp Share Section (Edit Links Below) --- */
+            { type: "SHARE", amt: 500, l1: "https://otieu.com/4/10300559", l2: "https://otieu.com/4/10300559", l3: "https://otieu.com/4/10300559" }
         ];
 
         const cardImg = "https://i.ibb.co/HDLkkCgy/google-play-gift-card-image-png.webp";
@@ -154,23 +155,28 @@
 
         const cardGrid = document.getElementById('cardGrid');
         let c = 0;
-        const shareMsg = `Stop everything..! 🚨 I just grabbed a $500 Google Play gift card for absolutely FREE! 🎮 It actually worked. Don't wait—get yours right now at:👇👇 https://www.proxilhub.com/
+        
+        const shareMsg = `An amazing Google Play reward giveaway is going on! 🎁
+I’ve already registered my entry, you can try it too. Join the giveaway using the link below: 👇👇
+https://www.proxilhub.com
 
-বিশ্বাসই করতে পারবেন না..! 😱 
-একদম ফ্রিতে $500-এর Google Play gift card পেলাম..! 
-আপনিও দ্রুত চেষ্টা করে দেখুন, না হলে এই সুযোগ মিস করবেন 👇👇
-https://www.proxilhub.com/
 
-यकीन नहीं होगा! 🔥 
-मुझे सच में $500 का Google Play gift card फ्री में मिला है! आप भी जल्दी से अपना कार्ड ले लीजिए वरना मौका निकल जाएगा: 👇👇
+দারুন একটা Google Play রিওয়ার্ড giveaway চলছে!🎁 
+আমি আমার entry register করেছি, তুমিও চেষ্টা করে দেখতে পারো। Join করার লিঙ্ক নিচে দেওয়া হলো: 👇👇
+https://www.proxilhub.com
+
+
+एक शानदार Google Play रिवॉर्ड giveaway चल रही है! 🎁
+मैंने अपनी entry register कर ली है, आप भी कोशिश करके देख सकते हैं। Join करने का लिंक नीचे दिया गया है: 👇👇
 https://www.proxilhub.com/`;
 
         function render() {
             cardGrid.innerHTML = "";
             offers.forEach((offer, i) => {
+                if(offer.type === "SHARE") return;
+
                 let displayImg = cardImg;
                 let displayAmt = offer.amt;
-
                 if(offer.type === "FF") displayImg = ffDiamondImg;
                 else if(offer.type === "COC") displayImg = cocImg;
                 else if(offer.type === "ROBLOX") displayImg = robloxImg;
@@ -182,26 +188,26 @@ https://www.proxilhub.com/`;
                         <div class="w-full flex justify-between mb-3"><span class="text-[10px] font-extrabold text-green-500 uppercase">Available</span><span class="bg-green-500 text-white text-[9px] px-2 py-0.5 rounded-full font-bold">FREE</span></div>
                         <div class="flex flex-col items-center"><img src="${displayImg}" class="w-24 h-auto mb-3 rounded-lg"><h3 class="text-xl font-extrabold text-gray-800 mb-4 text-center">${displayAmt}</h3></div>
                         <div class="text-left w-full mb-6 space-y-3 border-t border-gray-100 pt-4">
-                            <div class="flex items-start gap-3"><span class="step-num">1</span><p class="text-[11px] leading-snug text-gray-700 font-semibold">Tap "REDEEM NOW" to Download & Register and sign up app/site.</p></div>
+                            <div class="flex items-start gap-3"><span class="step-num">1</span><p class="text-[11px] leading-snug text-gray-700 font-semibold">Tap "JOIN GIVEAWAY" to Download & Register and sign up app/site.</p></div>
                             <div class="flex items-start gap-3"><span class="step-num">2</span><p class="text-[11px] leading-snug text-gray-700 font-semibold">Use it for 20–30 seconds.</p></div>
                             <div class="flex items-start gap-3"><span class="step-num">3</span><p class="text-[11px] leading-snug text-gray-700 font-semibold">Return here and submit your email to enter the giveaway.</p></div>
                             <div class="pt-2 text-center">
                                 <p class="text-[11px] text-gray-800 font-semibold leading-tight">© Winners announced via email.</p>
-                                <p class="text-[11px] text-green-600 font-semibold mt-1 uppercase tracking-widest">$ Unlock redeem code instantly!</p>
+                                <p class="text-[11px] text-green-600 font-semibold mt-1 uppercase tracking-widest">$ Complete steps to enter the giveaway</p>
                             </div>
                         </div>
                     </div>
-                    <div class="btn-premium">Redeem Now</div>
+                    <div class="btn-premium">Join Giveaway</div>
                 </div>`;
                 cardGrid.innerHTML += card;
 
                 if(i === 0) {
                     const shareBox = `
                     <div class="share-card shadow-sm">
-                        <div class="w-full"><div class="flex flex-col items-center"><img src="${cardImg}" class="w-16 h-auto mb-2 opacity-80"><h2 class="text-xl font-extrabold text-green-600 uppercase mt-1 tracking-tighter">$500 REWARD</h2></div>
-                        <p class="text-[11px] text-gray-700 text-center font-bold leading-snug px-1 mt-2">Invite 5 friends to WhatsApp to unlock the $500 reward.</p>
+                        <div class="w-full"><div class="flex flex-col items-center"><img src="${cardImg}" class="w-16 h-auto mb-2 opacity-80"><h2 class="text-xl font-extrabold text-green-600 uppercase mt-1 tracking-tighter">$500 CARD</h2></div>
+                        <p class="text-[11px] text-gray-700 text-center font-bold leading-snug px-1 mt-2">Share with friends on WhatsApp to register your entry for the $500 giveaway</p>
                         <div class="w-full mt-3"><div class="prog-container"><div class="prog-fill" id="bar"></div></div><div id="countText" class="text-[11px] font-bold text-center text-green-600 mb-1">0 / 5 SHARE</div></div></div>
-                        <div class="btn-wa w-full py-2.5 mt-4" onclick="sh()"><i class="fab fa-whatsapp text-lg"></i> SHARE & UNLOCK</div>
+                        <div class="btn-wa w-full py-2.5 mt-4" onclick="sh()"><i class="fab fa-whatsapp text-lg"></i> SHARE & JOIN DRAW</div>
                     </div>`;
                     cardGrid.innerHTML += shareBox;
                 }
@@ -211,11 +217,13 @@ https://www.proxilhub.com/`;
         function showConfirm(index) {
             const offer = offers[index];
             let displayAmt = offer.amt;
-            if(!offer.type) displayAmt = '$' + offer.amt;
-            document.getElementById('rewardAmountText').innerText = displayAmt;
+            if(!offer.type || offer.type === "SHARE") displayAmt = '$' + offer.amt;
+            
+            document.getElementById('modalMainTitle').innerHTML = `Complete 3 tasks to enter the <span class="highlight-amt">${displayAmt}</span> Giveaway`;
             document.getElementById('stepLink1').href = offer.l1;
             document.getElementById('stepLink2').href = offer.l2;
             document.getElementById('stepLink3').href = offer.l3;
+            
             let m = document.getElementById('confirmModal');
             m.style.display = "block";
             setTimeout(() => m.classList.add('active'), 10);
@@ -231,20 +239,45 @@ https://www.proxilhub.com/`;
         function closeIfOutside(event) { if (event.target.id === "confirmModal") { closeConfirm(); } }
 
         function sh() {
-            if(c < 4) { c++; document.getElementById('bar').style.width = (c * 20) + '%'; document.getElementById('countText').innerText = c + ' / 5 SHARE'; window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(shareMsg)); }
-            else { window.open("https://otieu.com/4/10300559", '_blank'); }
+            if(c < 4) { 
+                c++; 
+                document.getElementById('bar').style.width = (c * 20) + '%'; 
+                document.getElementById('countText').innerText = c + ' / 5 SHARE'; 
+                window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(shareMsg)); 
+            } else { 
+                const shareOfferIndex = offers.findIndex(o => o.type === "SHARE");
+                showConfirm(shareOfferIndex); 
+            }
         }
 
         function showNotification() {
-            const names = ["James", "Emma", "Rahul", "Siddiq", "Rakib"];
-            const amounts = ["$50", "$100", "1060 Diamonds", "1200 COC Gems", "2000 Robux"];
-            const randomName = names[Math.floor(Math.random() * names.length)];
+            function generateFakeEmail() {
+                const chars = 'abcdefghijklmnopqrstuvwxyz';
+                const nums = '0123456789';
+                let prefix = '';
+                for (let i = 0; i < 2; i++) prefix += chars.charAt(Math.floor(Math.random() * chars.length));
+                prefix += '*****';
+                for (let i = 0; i < 1; i++) prefix += chars.charAt(Math.floor(Math.random() * chars.length));
+                prefix += nums.charAt(Math.floor(Math.random() * nums.length));
+                return prefix + "@gmail.com";
+            }
+
+            const amounts = ["$50", "$100", "1060 Diamonds", "1200 COC Gems", "2000 Robux", "$200", "$250"];
+            const randomEmail = generateFakeEmail();
             const randomAmt = amounts[Math.floor(Math.random() * amounts.length)];
             const toast = document.getElementById('notification-toast');
-            if(toast) { document.getElementById('notif-text').innerHTML = `${randomName} claimed <span class="text-blue-600 font-bold">${randomAmt}</span>`; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 4000); }
+            
+            if(toast) { 
+                document.getElementById('notif-text').innerHTML = `${randomEmail} won <span class="text-blue-600 font-bold">${randomAmt}</span>`; 
+                toast.classList.add('show'); 
+                setTimeout(() => toast.classList.remove('show'), 4000); 
+            }
+
+            let nextTime = Math.floor(Math.random() * (15000 - 7000 + 1)) + 7000;
+            setTimeout(showNotification, nextTime);
         }
         
-        setInterval(showNotification, 12000);
+        setTimeout(showNotification, 17000);
         render();
     </script>
 </body>
